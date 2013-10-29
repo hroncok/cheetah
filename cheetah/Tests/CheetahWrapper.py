@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+from __future__ import print_function
 '''
 Tests for the 'cheetah' command.
 
@@ -543,7 +544,7 @@ def listTests(cheetahWrapperFile):
             break
         m = rx.search(lin)
         if m:
-            print(m.group(1))
+            print((m.group(1)))
     f.close()
 
 def main():

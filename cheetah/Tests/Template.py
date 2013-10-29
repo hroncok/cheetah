@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+from __future__ import unicode_literals
 
 import pdb
 import sys
@@ -305,7 +306,7 @@ class ClassMethodSupport(TemplateTest):
         try:
             rc = template.myClassMethod(foo='bar')
             assert rc == '$foo = bar', (rc, 'Template class method didn\'t return what I expected')
-        except AttributeError, ex:
+        except AttributeError as ex:
             self.fail(ex)
 
 class StaticMethodSupport(TemplateTest):
@@ -323,7 +324,7 @@ class StaticMethodSupport(TemplateTest):
         try:
             rc = template.myStaticMethod(foo='bar')
             assert rc == '$foo = bar', (rc, 'Template class method didn\'t return what I expected')
-        except AttributeError, ex:
+        except AttributeError as ex:
             self.fail(ex)
 
 class Useless(object):
@@ -354,7 +355,7 @@ class SubclassSearchListTest(TemplateTest):
         class Sub(Template):
             greeting = 'Hola'
         tmpl = Sub('''When we meet, I say "${greeting}"''')
-        self.assertEquals(unicode(tmpl), 'When we meet, I say "Hola"')
+        self.assertEquals(str(tmpl), 'When we meet, I say "Hola"')
 
 ##################################################
 ## if run from the command line ##

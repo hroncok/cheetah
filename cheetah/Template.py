@@ -1,3 +1,5 @@
+from __future__ import unicode_literals
+from __future__ import print_function
 '''
 Provides the core API for Cheetah.
 
@@ -145,7 +147,7 @@ class TemplatePreprocessor(object):
         """
         settings = self._settings
         if not source: # @@TR: this needs improving
-            if isinstance(file, (str, unicode)): # it's a filename.
+            if isinstance(file, (str, str)): # it's a filename.
                 f = open(file)
                 source = f.read()
                 f.close()
@@ -156,7 +158,7 @@ class TemplatePreprocessor(object):
         templateAPIClass = settings.templateAPIClass
         possibleKwArgs = [
             arg for arg in
-            inspect.getargs(templateAPIClass.compile.im_func.func_code)[0]
+            inspect.getargs(templateAPIClass.compile.__func__.__code__)[0]
             if arg not in ('klass', 'source', 'file',)]
 
         compileKwArgs = {}
@@ -586,10 +588,10 @@ class Template(Servlet):
         """
         errmsg = "arg '%s' must be %s"
 
-        if not isinstance(source, (types.NoneType, basestring)):
+        if not isinstance(source, (type(None), basestring)):
             raise TypeError(errmsg % ('source', 'string or None'))
 
-        if not isinstance(file, (types.NoneType, basestring, filetype)):
+        if not isinstance(file, (type(None), basestring, filetype)):
             raise TypeError(errmsg %
                             ('file', 'string, file-like object, or None'))
 
@@ -598,7 +600,7 @@ class Template(Servlet):
         if isinstance(baseclass, Template):
             baseclass = baseclass.__class__
 
-        if not isinstance(baseclass, (types.NoneType, basestring, type)):
+        if not isinstance(baseclass, (type(None), basestring, type)):
             raise TypeError(errmsg % ('baseclass', 'string, class or None'))
 
         if cacheCompilationResults is Unspecified:
@@ -629,7 +631,7 @@ class Template(Servlet):
         if not isinstance(keepRefToGeneratedCode, (int, bool)):
             raise TypeError(errmsg % ('keepReftoGeneratedCode', 'boolean'))
 
-        if not isinstance(moduleName, (types.NoneType, basestring)):
+        if not isinstance(moduleName, (type(None), basestring)):
             raise TypeError(errmsg % ('moduleName', 'string or None'))
         __orig_file__ = None
         if not moduleName:
@@ -642,14 +644,14 @@ class Template(Servlet):
         if className is Unspecified:
             className = klass._CHEETAH_defaultClassNameForTemplates
 
-        if not isinstance(className, (types.NoneType, basestring)):
+        if not isinstance(className, (type(None), basestring)):
             raise TypeError(errmsg % ('className', 'string or None'))
         className = re.sub(r'^_+([^0-9])',r'\1', className or moduleName)
 
         if mainMethodName is Unspecified:
             mainMethodName = klass._CHEETAH_defaultMainMethodNameForTemplates
 
-        if not isinstance(mainMethodName, (types.NoneType, basestring)):
+        if not isinstance(mainMethodName, (type(None), basestring)):
             raise TypeError(errmsg % ('mainMethodName', 'string or None'))
 
         if moduleGlobals is Unspecified:
@@ -665,7 +667,7 @@ class Template(Servlet):
         if cacheDirForModuleFiles is Unspecified:
             cacheDirForModuleFiles = klass._CHEETAH_cacheDirForModuleFiles
 
-        if not isinstance(cacheDirForModuleFiles, (types.NoneType, basestring)):
+        if not isinstance(cacheDirForModuleFiles, (type(None), basestring)):
             raise TypeError(errmsg %
                             ('cacheDirForModuleFiles', 'string or None'))
 
@@ -786,7 +788,7 @@ class Template(Servlet):
                 try:
                     co = compile(generatedModuleCode, __file__, 'exec')
                     exec(co, mod.__dict__)
-                except SyntaxError, e:
+                except SyntaxError as e:
                     try:
                         parseError = genParserErrorFromPythonException(
                             source, file, generatedModuleCode, exception=e)
@@ -796,7 +798,7 @@ class Template(Servlet):
                         raise e
                     else:
                         raise parseError
-                except Exception, e:
+                except Exception as e:
                     updateLinecache(__file__, generatedModuleCode)
                     e.generatedModuleCode = generatedModuleCode
                     raise
@@ -930,7 +932,7 @@ class Template(Servlet):
             normalizeSearchList(settings.templateInitArgs['searchList']))
             
         if not hasattr(settings, 'outputTransformer'):
-            settings.outputTransformer = unicode
+            settings.outputTransformer = str
 
         if not hasattr(settings, 'templateAPIClass'):
             class PreprocessTemplateAPIClass(klass): pass
@@ -981,13 +983,13 @@ class Template(Servlet):
         for methodname in klass._CHEETAH_requiredCheetahMethods:
             if not hasattr(concreteTemplateClass, methodname):
                 method = getattr(Template, methodname)
-                newMethod = createMethod(method.im_func, concreteTemplateClass)
+                newMethod = createMethod(method.__func__, concreteTemplateClass)
                 setattr(concreteTemplateClass, methodname, newMethod)
 
         for classMethName in klass._CHEETAH_requiredCheetahClassMethods:
             if not hasattr(concreteTemplateClass, classMethName):
                 meth = getattr(klass, classMethName)
-                setattr(concreteTemplateClass, classMethName, classmethod(meth.im_func))
+                setattr(concreteTemplateClass, classMethName, classmethod(meth.__func__))
             
         for attrname in klass._CHEETAH_requiredCheetahClassAttributes:
             attrname = '_CHEETAH_'+attrname
@@ -1003,7 +1005,7 @@ class Template(Servlet):
             if mainMethName:
                 def __str__(self): 
                     rc = getattr(self, mainMethName)()
-                    if isinstance(rc, unicode):
+                    if isinstance(rc, str):
                         return rc.encode('utf-8')
                     return rc
                 def __unicode__(self):
@@ -1012,7 +1014,7 @@ class Template(Servlet):
                   and concreteTemplateClass.respond!=Servlet.respond):
                 def __str__(self):
                     rc = self.respond()
-                    if isinstance(rc, unicode):
+                    if isinstance(rc, str):
                         return rc.encode('utf-8')
                     return rc
                 def __unicode__(self):
@@ -1026,7 +1028,7 @@ class Template(Servlet):
                         rc = self.respond()
                     else:
                         rc = super(self.__class__, self).__str__()
-                    if isinstance(rc, unicode):
+                    if isinstance(rc, str):
                         return rc.encode('utf-8')
                     return rc
                 def __unicode__(self):
@@ -1168,14 +1170,14 @@ class Template(Servlet):
         errmsg = "arg '%s' must be %s"
         errmsgextra = errmsg + "\n%s"
 
-        if not isinstance(source, (types.NoneType, basestring)):
+        if not isinstance(source, (type(None), basestring)):
             raise TypeError(errmsg % ('source', 'string or None'))
 
-        if not isinstance(file, (types.NoneType, basestring, filetype)):
+        if not isinstance(file, (type(None), basestring, filetype)):
             raise TypeError(errmsg %
                             ('file', 'string, file open for reading, or None'))
 
-        if not isinstance(filter, (basestring, types.TypeType)) and not \
+        if not isinstance(filter, (basestring, type)) and not \
                 (isinstance(filter, type) and issubclass(filter, Filters.Filter)):
             raise TypeError(errmsgextra %
                             ('filter', 'string or class',
@@ -1187,7 +1189,7 @@ class Template(Servlet):
 
         if not errorCatcher is None:
             err = True
-            if isinstance(errorCatcher, (basestring, types.TypeType)):
+            if isinstance(errorCatcher, (basestring, type)):
                 err = False
             if isinstance(errorCatcher, type) and \
                     issubclass(errorCatcher, ErrorCatchers.ErrorCatcher): 
@@ -1197,7 +1199,7 @@ class Template(Servlet):
                             ('errorCatcher', 'string, class or None',
                              '(if class, must be subclass of Cheetah.ErrorCatchers.ErrorCatcher)'))
         if compilerSettings is not Unspecified:
-            if not isinstance(compilerSettings, types.DictType):
+            if not isinstance(compilerSettings, dict):
                 raise TypeError(errmsg %
                                 ('compilerSettings', 'dictionary'))
         
@@ -1435,7 +1437,7 @@ class Template(Servlet):
         Type 'python yourtemplate.py --help to see what it's capabable of.
         """
 
-        from TemplateCmdLineIface import CmdLineIface
+        from .TemplateCmdLineIface import CmdLineIface
         CmdLineIface(templateObj=self).run()
         
     ##################################################
@@ -1854,7 +1856,7 @@ class Template(Servlet):
         # 'dic = super(ThisClass, self).webInput(names, namesMulti, ...)'
         # and then the code below.
         if debug:
-           print("<PRE>\n" + pprint.pformat(dic) + "\n</PRE>\n\n")
+           print(("<PRE>\n" + pprint.pformat(dic) + "\n</PRE>\n\n"))
         self.searchList().insert(0, dic)
         return dic
 
@@ -1865,7 +1867,7 @@ def genParserErrorFromPythonException(source, file, generatedPyCode, exception):
 
     #print dir(exception)
     
-    filename = isinstance(file, (str, unicode)) and file or None
+    filename = isinstance(file, (str, str)) and file or None
 
     sio = StringIO.StringIO()
     traceback.print_exc(1, sio)

@@ -1,3 +1,4 @@
+from __future__ import unicode_literals
 '''
     Compiler classes for Cheetah:
     ModuleCompiler aka 'Compiler'
@@ -1480,7 +1481,7 @@ class ClassCompiler(GenUtils):
             attribs = [self.setting('indentationStep') + str(attrib)
                           for attrib in self._generatedAttribs ]
         except UnicodeEncodeError:
-            attribs = [self.setting('indentationStep') + unicode(attrib)
+            attribs = [self.setting('indentationStep') + str(attrib)
                           for attrib in self._generatedAttribs ]
         return '\n\n'.join(attribs)
   
@@ -1557,7 +1558,7 @@ class ModuleCompiler(SettingsManager, GenUtils):
             self._fileBaseNameRoot, self._fileBaseNameExt = os.path.splitext(self._fileBaseName)
 
         if not isinstance(source, basestring):
-            source = unicode(source)
+            source = str(source)
             # by converting to string here we allow objects such as other Templates
             # to be passed in
 
@@ -1577,14 +1578,14 @@ class ModuleCompiler(SettingsManager, GenUtils):
                 source = unicodeDirectiveRE.sub('', source)
                 if isinstance(source, str):
                     encoding = unicodeMatch.group(1) or 'ascii'
-                    source = unicode(source, encoding)
+                    source = str(source, encoding)
             elif encodingMatch:
                 encodings = encodingMatch.groups()
                 if len(encodings):
                     encoding = encodings[0]
                     source = source.decode(encoding)
             else:
-                source = unicode(source)
+                source = str(source)
 
         if source.find('#indent') != -1: #@@TR: undocumented hack
             source = indentize(source)

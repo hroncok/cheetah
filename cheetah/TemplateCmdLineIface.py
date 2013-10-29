@@ -1,3 +1,4 @@
+from __future__ import print_function
 # $Id: TemplateCmdLineIface.py,v 1.13 2006/01/10 20:34:35 tavis_rudd Exp $
 
 """Provides a command line interface to compiled Cheetah template modules.
@@ -41,7 +42,7 @@ class CmdLineIface:
         """The main program controller."""
         
         self._processCmdLineArgs()
-        print(self._template)
+        print((self._template))
         
     def _processCmdLineArgs(self):
         try:
@@ -51,15 +52,15 @@ class CmdLineIface:
                                             'pickle=',
                                             ])
 
-        except getopt.GetoptError, v:
+        except getopt.GetoptError as v:
             # print help information and exit:
             print(v)
-            print(self.usage())
+            print((self.usage()))
             sys.exit(2)
         
         for o, a in self._opts:
             if o in ('-h', '--help'):
-                print(self.usage())
+                print((self.usage()))
                 sys.exit()
             if o == '--env':
                 self._template.searchList().insert(0, os.environ)

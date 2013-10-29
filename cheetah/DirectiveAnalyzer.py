@@ -1,4 +1,6 @@
 #!/usr/bin/env python
+from __future__ import unicode_literals
+from __future__ import print_function
 
 import os
 import pprint
@@ -37,7 +39,7 @@ def analyze(source):
 def main_file(f):
     fd = open(f, 'r')
     try:
-        print u'>>> Analyzing %s' % f
+        print('>>> Analyzing %s' % f)
         calls = analyze(fd.read())
         return calls
     finally:

@@ -1,3 +1,4 @@
+from __future__ import print_function
 """
 Provides an emulator/replacement for Python's standard import system.
 
@@ -125,7 +126,7 @@ def pathIsDir(pathname):
         s = _os_stat(pathname)
     except OSError:
         return None
-    return (s[0] & 0170000) == 0040000
+    return (s[0] & 0o170000) == 0o040000
 
 def getDescr(fnm):
     ext = getPathExt(fnm)
@@ -198,9 +199,9 @@ class DirOwner(Owner):
                 try:
                     co = compile(open(py[0], 'r').read()+'\n', py[0], 'exec')
                     break
-                except SyntaxError, e:
-                    print("Invalid syntax in %s" % py[0])
-                    print(e.args)
+                except SyntaxError as e:
+                    print(("Invalid syntax in %s" % py[0]))
+                    print((e.args))
                     raise
             elif pyc:
                 stuff = open(pyc[0], 'rb').read()

@@ -1,3 +1,4 @@
+from __future__ import print_function
 ## statprof.py
 ## Copyright (C) 2004,2005 Andy Wingo <wingo at pobox dot com>
 ## Copyright (C) 2001 Rob Browning <rlb at defaultvalue dot org>
@@ -118,9 +119,6 @@ while code has been executing within a start()/stop() block.
 The profiler also tries to avoid counting or timing its own code as
 much as possible.
 """
-
-
-
 
 try:
     import itimer
@@ -277,10 +275,10 @@ class CallStats(object):
         self.cum_secs_per_call = None
 
     def display(self):
-        print('%6.2f %9.2f %9.2f  %s' % (self.pcnt_time_in_proc,
+        print(('%6.2f %9.2f %9.2f  %s' % (self.pcnt_time_in_proc,
                                          self.cum_secs_in_proc,
                                          self.self_secs_in_proc,
-                                         self.name))
+                                         self.name)))
 
 
 def display():
@@ -293,12 +291,12 @@ def display():
     l.sort(reverse=True)
     l = [x[2] for x in l]
 
-    print('%5.5s %10.10s   %7.7s  %-8.8s' % ('%  ', 'cumulative', 'self', ''))
-    print('%5.5s  %9.9s  %8.8s  %-8.8s' % ("time", "seconds", "seconds", "name"))
+    print(('%5.5s %10.10s   %7.7s  %-8.8s' % ('%  ', 'cumulative', 'self', '')))
+    print(('%5.5s  %9.9s  %8.8s  %-8.8s' % ("time", "seconds", "seconds", "name")))
 
     for x in l:
         x.display()
 
     print('---')
-    print('Sample count: %d' % state.sample_count)
-    print('Total time: %f seconds' % state.accumulated_time)
+    print(('Sample count: %d' % state.sample_count))
+    print(('Total time: %f seconds' % state.accumulated_time))

@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from __future__ import unicode_literals
 #
 # Cheetah Template Engine documentation build configuration file, created by
 # sphinx-quickstart on Sun May 31 22:23:43 2009.
@@ -41,8 +42,8 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'Cheetah'
-copyright = u'2010, R. Tyler Ballance'
+project = 'Cheetah'
+copyright = '2010, R. Tyler Ballance'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -107,7 +108,7 @@ html_theme_path = ['.']
 
 # The name for this set of Sphinx documents.  If None, it defaults to
 # "<project> v<release> documentation".
-html_title = u'Cheetah - The Python-Powered Template Engine'
+html_title = 'Cheetah - The Python-Powered Template Engine'
 
 # A shorter title for the navigation bar.  Default is the same as html_title.
 #html_short_title = None
@@ -176,8 +177,8 @@ htmlhelp_basename = 'CheetahTemplateEnginedoc'
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title, author, documentclass [howto/manual]).
 latex_documents = [
-  ('index', 'CheetahTemplateEngine.tex', u'Cheetah Template Engine Documentation',
-   u'R. Tyler Ballance', 'manual'),
+  ('index', 'CheetahTemplateEngine.tex', 'Cheetah Template Engine Documentation',
+   'R. Tyler Ballance', 'manual'),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of

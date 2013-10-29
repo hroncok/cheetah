@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+from __future__ import unicode_literals
 
 import unittest
 
@@ -28,7 +29,7 @@ class ArgListTest(unittest.TestCase):
         self.al.add_argument('b')
         self.al.add_default('444')
 
-        expect = [(u'a', u'999'), (u'b', u'444')]
+        expect = [('a', '999'), ('b', '444')]
 
         self.assertEquals(expect, self.al.merge())
 

@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+from __future__ import unicode_literals
 """
 Parser classes for Cheetah's Compiler
 
@@ -1363,7 +1364,7 @@ class _HighLevelParser(_LowLevelParser):
     
     def _initDirectives(self):
         def normalizeParserVal(val):
-            if isinstance(val, (str, unicode)):
+            if isinstance(val, (str, str)):
                 handler = getattr(self, val)
             elif isinstance(val, type):
                 handler = val(self)
@@ -2352,12 +2353,12 @@ class _HighLevelParser(_LowLevelParser):
         kwArgs['src'] = srcBlock
 
         if isinstance(macro, types.MethodType):
-            co = macro.im_func.func_code
+            co = macro.__func__.__code__
         elif (hasattr(macro, '__call__')
               and hasattr(macro.__call__, 'im_func')):
-            co = macro.__call__.im_func.func_code
+            co = macro.__call__.__func__.__code__
         else:
-            co = macro.func_code
+            co = macro.__code__
         availableKwArgs = inspect.getargs(co)[0]
         
         if 'parser' in availableKwArgs:

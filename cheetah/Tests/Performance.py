@@ -1,4 +1,6 @@
 #!/usr/bin/env python
+from __future__ import unicode_literals
+from __future__ import print_function
 
 import hotshot
 import hotshot.stats
@@ -57,8 +59,8 @@ def perftest(max_num_pystones, current_pystone=None):
                     pystone_total_time = total_time / pystone_rate
                 global DEBUG
                 if DEBUG:
-                    print('The test "%s" took: %s pystones' % (function.func_name,
-                        pystone_total_time))
+                    print(('The test "%s" took: %s pystones' % (function.__name__,
+                        pystone_total_time)))
                 else:
                     if pystone_total_time > (max_num_pystones + TOLERANCE):
                         raise DurationError((('Test too long (%.2f Ps, '
@@ -98,8 +100,8 @@ class PerformanceTest(unittest.TestCase):
         self.prof.stop()
         self.prof.close()
         if self.display:
-            print('>>> %s (%d iterations) ' % (self.__class__.__name__,
-                    self.iterations))
+            print(('>>> %s (%d iterations) ' % (self.__class__.__name__,
+                    self.iterations)))
             stats = hotshot.stats.load('%s.prof' % self.__class__.__name__)
             #stats.strip_dirs()
             stats.sort_stats('time', 'calls')
@@ -154,7 +156,7 @@ class DynamicSimpleCompilationTest(PerformanceTest):
         template = Cheetah.Template.Template.compile(template, 
             keepRefToGeneratedCode=False)
         template = template()
-        template = unicode(template)
+        template = str(template)
 
 
 class FilterTest(PerformanceTest):
@@ -173,7 +175,7 @@ class FilterTest(PerformanceTest):
         self.template = template()
 
     def performanceSample(self):
-        value = unicode(self.template)
+        value = str(self.template)
 
 
 class LongCompileTest(PerformanceTest):

@@ -1,3 +1,4 @@
+from __future__ import print_function
 # $Id: SiteHierarchy.py,v 1.1 2001/10/11 03:25:54 tavis_rudd Exp $
 """Create menus and crumbs from a site hierarchy.
 
@@ -157,10 +158,10 @@ if __name__ == '__main__':
             ]
 
     for url in ['/', '/services', '/services/products/widget', '/contact']:
-        print('<p>', '='*50)
-        print('<br> %s: <br>\n' % url)
+        print(('<p>', '='*50))
+        print(('<br> %s: <br>\n' % url))
         n = Hierarchy(hierarchy, url, menuCSSClass='menu', crumbCSSClass='crumb',
                   prefix='/here')
-        print(n.menuList())
-        print('<p>', '-'*50)
-        print(n.crumbs())
+        print((n.menuList()))
+        print(('<p>', '-'*50))
+        print((n.crumbs()))

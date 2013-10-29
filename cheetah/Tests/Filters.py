@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+from __future__ import print_function
 
 import sys
 import unittest
@@ -28,12 +29,12 @@ Header
             template = Cheetah.Template.Template(template, searchList=[{'foo' : 'bar'}])
             template = str(template)
             assert template == expected
-        except ImportError, ex:
-            print('>>> We probably failed to import markdown, bummer %s' % ex)
+        except ImportError as ex:
+            print(('>>> We probably failed to import markdown, bummer %s' % ex))
             return
-        except Exception, ex:
+        except Exception as ex:
             if ex.__class__.__name__ == 'MarkdownException' and majorVer == 2 and minorVer < 5:
-                print('>>> NOTE: Support for the Markdown filter will be broken for you. Markdown says: %s' % ex)
+                print(('>>> NOTE: Support for the Markdown filter will be broken for you. Markdown says: %s' % ex))
                 return
             raise
 

@@ -1,4 +1,4 @@
-
+from __future__ import unicode_literals
 '''
 Provides dummy Transaction and Response classes is used by Cheetah in place
 of real Webware transactions when the Template obj is not used directly as a
@@ -30,8 +30,8 @@ class DummyResponse(object):
         # Exceptionally gross, but the safest way
         # I've found to ensure I get a legit unicode object
         if not chunk:
-            return u''
-        if isinstance(chunk, unicode):
+            return ''
+        if isinstance(chunk, str):
             return chunk
         try:
             return chunk.decode('utf-8', 'strict')
@@ -41,7 +41,7 @@ class DummyResponse(object):
             except UnicodeDecodeError:
                 return chunk.decode('ascii', 'ignore')
         except AttributeError:
-            return unicode(chunk, errors='ignore')
+            return str(chunk, errors='ignore')
         return chunk
 
     def write(self, value):
@@ -54,8 +54,8 @@ class DummyResponse(object):
     def getvalue(self, outputChunks=None):
         chunks = outputChunks or self._outputChunks
         try:
-            return u''.join(chunks)
-        except UnicodeDecodeError, ex:
+            return ''.join(chunks)
+        except UnicodeDecodeError as ex:
             logging.debug('Trying to work around a UnicodeDecodeError in getvalue()')
             logging.debug('...perhaps you could fix "%s" while you\'re debugging')
             return ''.join((self.safeConvert(c) for c in chunks))

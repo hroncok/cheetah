@@ -1,3 +1,4 @@
+from __future__ import print_function
 # $Id: CheetahWrapper.py,v 1.26 2007/10/02 01:22:04 tavis_rudd Exp $
 """Cheetah command-line interface.
 
@@ -203,7 +204,7 @@ Files are %s""", args, pprint.pformat(vars(opts)), files)
             listing.sort(key=lambda l: l[0][0].lower())
 
             for l in listing:
-                print('\t%s (default: "%s")\t%s' % l)
+                print(('\t%s (default: "%s")\t%s' % l))
             sys.exit(0)
 
         #cleanup trailing path separators

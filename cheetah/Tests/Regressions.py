@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+from __future__ import print_function
 
 import Cheetah.NameMapper 
 import Cheetah.Template
@@ -29,8 +30,8 @@ class GetAttrTest(unittest.TestCase):
     def test_ValidException(self):
         o = CustomGetAttrClass()
         try:
-            print(o.attr)
-        except GetAttrException, e:
+            print((o.attr))
+        except GetAttrException as e:
             # expected
             return
         except:

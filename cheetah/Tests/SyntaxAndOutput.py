@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: latin-1 -*-
+from __future__ import unicode_literals
 
 '''
 Syntax and Output tests.
@@ -11,7 +12,6 @@ TODO
 - #echo
 - #silent
 '''
-
 
 ##################################################
 ## DEPENDENCIES ##
@@ -104,7 +104,7 @@ defaultTestNameSpace = {
     'nameList': [('john', 'doe'), ('jane', 'smith')],
     'letterList': ['a', 'b', 'c'],
     '_': lambda x: 'Translated: ' + x,
-    'unicodeData': u'aoeu12345\u1234',
+    'unicodeData': 'aoeu12345\u1234',
     }
 
 
@@ -708,12 +708,12 @@ class UnicodeStrings(OutputTest):
         """unicode data in placeholder
         """
         #self.verify(u"$unicodeData", defaultTestNameSpace['unicodeData'], outputEncoding='utf8')
-        self.verify(u"$unicodeData", defaultTestNameSpace['unicodeData'])
+        self.verify("$unicodeData", defaultTestNameSpace['unicodeData'])
 
     def test2(self):
         """unicode data in body
         """
-        self.verify(u"aoeu12345\u1234", u"aoeu12345\u1234")
+        self.verify("aoeu12345\u1234", "aoeu12345\u1234")
         #self.verify(u"#encoding utf8#aoeu12345\u1234", u"aoeu12345\u1234")
 
 class EncodingDirective(OutputTest):
@@ -730,48 +730,48 @@ class EncodingDirective(OutputTest):
     def test3(self):
         """basic #encoding """
         self.verify("#encoding utf-8\n\xe1\x88\xb4",
-                    u'\u1234', outputEncoding='utf8')
+                    '\u1234', outputEncoding='utf8')
 
     def test4(self):
         """basic #encoding """
         self.verify("#encoding latin-1\n\xe1\x88\xb4",
-                    u"\xe1\x88\xb4")
+                    "\xe1\x88\xb4")
 
     def test5(self):
         """basic #encoding """
         self.verify("#encoding latin-1\nAndr\202",
-                    u'Andr\202')
+                    'Andr\202')
 
     def test6(self):
         '''Using #encoding on the second line'''
         self.verify("""### Comments on the first line
 #encoding utf-8\n\xe1\x88\xb4""",
-                    u'\u1234', outputEncoding='utf8')
+                    '\u1234', outputEncoding='utf8')
 
 class UnicodeDirective(OutputTest):
     def test1(self):
         """basic #unicode """
         self.verify("#unicode utf-8\n1234",
-                    u"1234")
+                    "1234")
         
         self.verify("#unicode ascii\n1234",
-                    u"1234")
+                    "1234")
 
         self.verify("#unicode latin-1\n1234",
-                    u"1234")
+                    "1234")
 
         self.verify("#unicode latin-1\n1234ü",
-                    u"1234ü")
+                    "1234ü")
         self.verify("#unicode: latin-1\n1234ü",
-                    u"1234ü")
+                    "1234ü")
         self.verify("#  unicode  : latin-1\n1234ü",
-                    u"1234ü")
+                    "1234ü")
 
-        self.verify(u"#unicode latin-1\n1234ü",
-                    u"1234ü")
+        self.verify("#unicode latin-1\n1234ü",
+                    "1234ü")
 
         self.verify("#encoding latin-1\n1234ü",
-                    u"1234ü")
+                    "1234ü")
 
 class Placeholders_Esc(OutputTest):
     convertEOLs = False

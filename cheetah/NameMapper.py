@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+from __future__ import print_function
 """This module supports Cheetah's optional NameMapper syntax.
 
 Overview
@@ -234,7 +235,7 @@ def _valueForName(obj, name, executeCallables=False):
 def valueForName(obj, name, executeCallables=False):
     try:
         return _valueForName(obj, name, executeCallables)
-    except NotFound, e:
+    except NotFound as e:
         _wrapNotFoundException(e, fullName=name, namespace=obj)
 
 def valueFromSearchList(searchList, name, executeCallables=False):
@@ -258,7 +259,7 @@ def valueFromFrameOrSearchList(searchList, name, executeCallables=False,
     def __valueForName():
         try:
             return _valueForName(namespace, name, executeCallables=executeCallables)
-        except NotFound, e:
+        except NotFound as e:
             _wrapNotFoundException(e, fullName=name, namespace=searchList)
     try:
         if not frame:
@@ -351,13 +352,13 @@ def example():
         }
     b = 'this is local b'
 
-    print(valueForKey(a.dic, 'subDict'))
-    print(valueForName(a, 'dic.item'))
-    print(valueForName(vars(), 'b'))
-    print(valueForName(__builtins__, 'dir')())
-    print(valueForName(vars(), 'a.classVar'))
-    print(valueForName(vars(), 'a.dic.func', executeCallables=True))
-    print(valueForName(vars(), 'a.method2.item1', executeCallables=True))
+    print((valueForKey(a.dic, 'subDict')))
+    print((valueForName(a, 'dic.item')))
+    print((valueForName(vars(), 'b')))
+    print((valueForName(__builtins__, 'dir')()))
+    print((valueForName(vars(), 'a.classVar')))
+    print((valueForName(vars(), 'a.dic.func', executeCallables=True)))
+    print((valueForName(vars(), 'a.method2.item1', executeCallables=True)))
 
 if __name__ == '__main__':
     example()

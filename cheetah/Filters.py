@@ -1,3 +1,5 @@
+from __future__ import unicode_literals
+from __future__ import print_function
 '''
     Filters for the #filter directive as well as #transform
     
@@ -27,13 +29,13 @@ class Filter(object):
             Pass Unicode strings through unmolested, unless an encoding is specified.
         '''
         if val is None:
-            return u''
-        if isinstance(val, unicode):
+            return ''
+        if isinstance(val, str):
             # ignore the encoding and return the unicode object
             return val
         else:
             try:
-                return unicode(val)
+                return str(val)
             except UnicodeDecodeError:
                 # we could put more fallbacks here, but we'll just pass the str
                 # on and let DummyTransaction worry about it
@@ -96,8 +98,8 @@ class CodeHighlighter(EncodeUnicode):
             from pygments import highlight
             from pygments import lexers
             from pygments import formatters
-        except ImportError, ex:
-            print('<%s> - Failed to import pygments! (%s)' % (self.__class__.__name__, ex))
+        except ImportError as ex:
+            print(('<%s> - Failed to import pygments! (%s)' % (self.__class__.__name__, ex)))
             print('-- You may need to install it from: http://pygments.org')
             return encoded
 
@@ -196,15 +198,15 @@ class StripSqueeze(Filter):
 def test():
     s1 = "abc <=> &"
     s2 = "   asdf  \n\t  1  2    3\n"
-    print("WebSafe INPUT:", repr(s1))
-    print("      WebSafe:", repr(WebSafe().filter(s1)))
+    print(("WebSafe INPUT:", repr(s1)))
+    print(("      WebSafe:", repr(WebSafe().filter(s1))))
     
     print()
-    print(" Strip INPUT:", repr(s2))
-    print("       Strip:", repr(Strip().filter(s2)))
-    print("StripSqueeze:", repr(StripSqueeze().filter(s2)))
+    print((" Strip INPUT:", repr(s2)))
+    print(("       Strip:", repr(Strip().filter(s2))))
+    print(("StripSqueeze:", repr(StripSqueeze().filter(s2))))
 
-    print("Unicode:", repr(EncodeUnicode().filter(u'aoeu12345\u1234')))
+    print(("Unicode:", repr(EncodeUnicode().filter('aoeu12345\u1234'))))
     
 if __name__ == "__main__":  
     test()
