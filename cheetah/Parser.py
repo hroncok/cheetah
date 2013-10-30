@@ -26,6 +26,11 @@ from Cheetah import ErrorCatchers
 from Cheetah.Unspecified import Unspecified
 from Cheetah.Macros.I18n import I18n
 
+if sys.version_info.major == 2:
+    unitype = unicode
+else:
+    unitype = str
+
 # re tools
 _regexCache = {}
 def cachedRegex(pattern):
@@ -1364,7 +1369,7 @@ class _HighLevelParser(_LowLevelParser):
     
     def _initDirectives(self):
         def normalizeParserVal(val):
-            if isinstance(val, (str, str)):
+            if isinstance(val, (str, unitype)):
                 handler = getattr(self, val)
             elif isinstance(val, type):
                 handler = val(self)
